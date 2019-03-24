@@ -76,13 +76,10 @@ class App extends Component {
   render() {
     const lat = this.state.location.lat
     const lng = this.state.location.lng
-    const location = this.state.location.lat ? lat + `, ` + lng : 'loading...'
     const eventsAvailable = this.state.events.length > 0
     return (
       <div className="App">
         <header className="App-header">
-        
-          <h2 style={{color: 'white'}}>Your current location is: { location } </h2>
 
           { this.state.locationReady &&
             <div>
