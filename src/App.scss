@@ -1,9 +1,12 @@
+@import './mixins';
+
 .app {
-  position: relative;
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  color: white;
+  width: 340px;
+  min-height: 550px;
+  box-shadow: rgba(0, 0, 0, 0.1) -2px 7px 7px;
+  margin: 20px auto auto;
+  background: #FBFBFD;
+  @include for-desktop-up {
+    width: 450px;
+  }
 }

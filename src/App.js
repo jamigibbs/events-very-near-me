@@ -86,7 +86,7 @@ class App extends Component {
               id="map__primary"
               eventsAvailable={this.state.eventsAvailable}
               events={this.state.events}
-              options={{ center: { lat, lng }, zoom: 14 }}
+              options={{ center: { lat, lng }, zoom: 13 }}
               onMapLoad={map => {
 
                 const currentLocationMarker = new window.google.maps.Marker({
@@ -112,9 +112,9 @@ class App extends Component {
           </div>
         }
 
-        <div className="event-list">
-          { this.state.locationReady &&
-            <Button handleClick={this.getEvents} value="Events Near Me" />
+        <div>
+          { this.state.locationReady && !eventsAvailable &&
+            <Button handleClick={this.getEvents} value="Get Events Very Near Me" />
           }
           { eventsAvailable && 
             <EventsList events={this.state.events} />
