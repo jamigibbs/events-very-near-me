@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
+import Button from './Button'
+import EventsList from './EventsList'
 import API_KEY from './config'
 
 class App extends Component {
@@ -26,7 +28,7 @@ class App extends Component {
     }
   }
 
-  handleClick = async () => {
+  getEvents = async () => {
     try {
       const { data } = await axios.get('/json/events/search/', {
         params: {
@@ -75,19 +77,11 @@ class App extends Component {
           <h2 style={{color: 'white'}}>Your current location is: { location } </h2>
 
           { this.state.locationReady &&
-            <button onClick={this.handleClick}>Events near me</button>
+            <Button handleClick={this.getEvents} value="Events Near Me" />
           }
 
           { eventsAvailable && 
-            <ul>
-              {this.state.events.length}
-              { this.state.events.map((event, i) => {
-                  return ( 
-                    <li key={i}> Name: {event.title} - Venue: {event.venue_name} - Location: {event.venue_address} - Day/Time: {event.start_time}</li> 
-                  )
-                })
-              }
-            </ul>
+            <EventsList events={this.state.events} />
           }
 
         </header>
