@@ -33,32 +33,33 @@ class Map extends Component {
       }, [])
 
       this.setState({ markers }, () => {
-        this.addEventMarkers()
+        if (markers.length > 0) {
+          this.addEventMarkers()
+        }
       })
     }
   }
 
   addEventMarkers = () => {
     this.state.markers.forEach((event, i) => {
-
-        const marker = new window.google.maps.Marker({
-          position: { lat: event.lat, lng: event.lng },
-          map: this.map,
-          title: event.venue_name
-        })
-        
-        const content = '<div class="map-marker-content">'+
-        `<p>${event.venue}</p>`+
-        '</div>';
-
-        const locationInfo = new window.google.maps.InfoWindow({
-          content
-        })
-
-        marker.addListener('click', function() {
-          locationInfo.open(this.map, marker)
-        })
+      const marker = new window.google.maps.Marker({
+        position: { lat: event.lat, lng: event.lng },
+        map: this.map,
+        title: event.venue_name
       })
+      
+      const content = '<div class="map-marker-content">'+
+      `<p>${event.venue}</p>`+
+      '</div>';
+
+      const locationInfo = new window.google.maps.InfoWindow({
+        content
+      })
+
+      marker.addListener('click', function() {
+        locationInfo.open(this.map, marker)
+      })
+    })
   }
 
   onScriptLoad = () => {
