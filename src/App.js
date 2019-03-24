@@ -3,7 +3,8 @@ import axios from 'axios'
 import './App.css';
 import Button from './Button'
 import EventsList from './EventsList'
-import API_KEY from './config'
+import Map from './Map'
+import { EVENTFUL_API_KEY } from './config'
 
 class App extends Component {
   constructor(props){
@@ -11,7 +12,8 @@ class App extends Component {
     this.state = {
       events: [],
       location: {},
-      locationReady: false
+      locationReady: false,
+      eventsAvailable: false
     }
   }
 
@@ -28,11 +30,17 @@ class App extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.events !== this.state.events) {
+      this.setState({ eventsAvailable: true })
+    }
+  }
+
   getEvents = async () => {
     try {
       const { data } = await axios.get('/json/events/search/', {
         params: {
-          app_key: API_KEY,
+          app_key: EVENTFUL_API_KEY,
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
           date: 'Today',
           within: 1,
@@ -77,7 +85,37 @@ class App extends Component {
           <h2 style={{color: 'white'}}>Your current location is: { location } </h2>
 
           { this.state.locationReady &&
-            <Button handleClick={this.getEvents} value="Events Near Me" />
+            <div>
+              <Button handleClick={this.getEvents} value="Events Near Me" />
+
+              <Map
+                id="myMap"
+                eventsAvailable={this.state.eventsAvailable}
+                events={this.state.events}
+                options={{ center: { lat, lng }, zoom: 14 }}
+                onMapLoad={map => {
+
+                  const currentLocationMarker = new window.google.maps.Marker({
+                    position: { lat, lng },
+                    map: map,
+                    title: 'You are here'
+                  })
+
+                  const currentLocationStr = '<div class="map-marker-content">'+
+                  '<p>You are here</p>'+
+                  '</div>';
+
+                  const currentLocationInfo = new window.google.maps.InfoWindow({
+                    content: currentLocationStr
+                  })
+
+                  currentLocationMarker.addListener('click', function() {
+                    currentLocationInfo.open(map, currentLocationMarker)
+                  })
+
+                }}
+              />
+            </div>
           }
 
           { eventsAvailable && 
