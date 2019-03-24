@@ -4,7 +4,9 @@
   "private": true,
   "proxy": "http://api.eventful.com",
   "dependencies": {
+    "@emotion/core": "^10.0.9",
     "axios": "^0.18.0",
+    "node-sass": "^4.11.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-scripts": "2.1.8"

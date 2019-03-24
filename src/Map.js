@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { GOOGLE_MAPS_API_KEY } from './config'
+import './Map.scss';
 
 class Map extends Component {
   constructor(props){
@@ -48,7 +49,7 @@ class Map extends Component {
         title: event.venue_name
       })
       
-      const content = '<div class="map-marker-content">'+
+      const content = '<div class="map__content">'+
       `<p>${event.venue}</p>`+
       '</div>';
 
@@ -69,7 +70,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={{ width: 500, height: 500 }} id={this.props.id} />
+      <div style={{ width: '100%', height: '100%' }} id={this.props.id} />
     )
   }
 }
