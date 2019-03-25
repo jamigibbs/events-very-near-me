@@ -4,7 +4,6 @@ import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
-//import { EVENTFUL_API_KEY } from './config'
 
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
