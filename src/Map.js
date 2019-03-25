@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import './Map.scss';
 
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-
+console.log(GOOGLE_MAPS_API_KEY)
 class Map extends Component {
   constructor(props){
     super(props)
