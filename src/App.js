@@ -7,6 +7,7 @@ import Map from './Map'
 
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
+const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search/' : 'http://api.eventful.com/json/events/search/'
 
 class App extends Component {
   constructor(props){
@@ -40,7 +41,7 @@ class App extends Component {
 
   getEvents = async () => {
     try {
-      const { data } = await axios.get('/json/events/search/', {
+      const { data } = await axios.get(EVENTFUL_SEARCH, {
         params: {
           app_key: EVENTFUL_API_KEY,
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
