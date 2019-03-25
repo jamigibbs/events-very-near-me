@@ -43,8 +43,8 @@ class App extends Component {
     try {
       const { data } = await axios.get(EVENTFUL_SEARCH, {
         params: {
-          cors_filter: 1,
           app_key: EVENTFUL_API_KEY,
+          scheme: 'https',
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
           date: 'Today',
           within: 1,
