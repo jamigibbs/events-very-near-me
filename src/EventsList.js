@@ -11,7 +11,7 @@ const EventsList = ({events}) => {
    */
   function cleanEventfulURL(url) {
     const path = url.split('3000')[1]
-    return path ? `https://eventful.com/${path}` : url
+    return path ? `https://eventful.com${path}` : url
   }
   
   return (
