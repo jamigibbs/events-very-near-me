@@ -6,7 +6,7 @@ import EventsList from './EventsList'
 import Map from './Map'
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
-console.log(EVENTFUL_API_KEY)
+
 
 class App extends Component {
   constructor(props){
