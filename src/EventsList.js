@@ -5,7 +5,7 @@ const EventsList = ({events}) => {
   return (
     <ul className="event-list">
       <h4 className="event-list__header">
-      We found {events.length} event{events.length > 1 ? 's' : ''}! 🎉
+      We found {events.length} event{events.length === 1 ? '' : 's'}! 🎉
       </h4>
       { events.map((event, i) => {
           return ( 
@@ -13,7 +13,7 @@ const EventsList = ({events}) => {
               <li className="event-list__item" key={i}>
                 <h5 className="event-list__title">Venue</h5>
                 {event.venue_name}
-                <h5 className="event-list__title">Name</h5>
+                <h5 className="event-list__title">Event</h5>
                 <a className="event-list__link" target="_blank" rel="noopener noreferrer" href="https://google.com">
                   {event.title}
                 </a>

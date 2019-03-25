@@ -4,9 +4,8 @@ import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
-import { EVENTFUL_API_KEY } from './config'
 
-const API_KEY = EVENTFUL_API_KEY || process.env.EVENTFUL_API_KEY
+const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
 
 class App extends Component {
   constructor(props){
@@ -42,7 +41,7 @@ class App extends Component {
     try {
       const { data } = await axios.get('/json/events/search/', {
         params: {
-          app_key: API_KEY,
+          app_key: EVENTFUL_API_KEY,
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
           date: 'Today',
           within: 1,
