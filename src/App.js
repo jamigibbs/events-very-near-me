@@ -74,6 +74,11 @@ class App extends Component {
       this.setState({ events: data.events.event })
     } catch (err) {
       console.log('err', err)
+      if (err.response) {
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      }
     }
   }
 
