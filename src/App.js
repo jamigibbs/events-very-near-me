@@ -7,7 +7,7 @@ import Map from './Map'
 
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
-const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search/' : 'https://api.eventful.com/json/events/search/'
+const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/rest/events/search/' : 'https://api.eventful.com/rest/events/search/'
 
 class App extends Component {
   constructor(props){
@@ -97,7 +97,7 @@ class App extends Component {
         .then((data) => {
           this.setState({ events: data.events.event })
         })
-        .catch(error => console.error(error))
+        .catch(error => console.error('fetch error: ', error))
       
       /**
        * TODO: Flag recurring events. For example, an art show that is showing for 3 weeks
