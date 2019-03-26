@@ -61,6 +61,7 @@ class App extends Component {
   getEvents = async () => {
     try {
       const { data } = await axios.get(EVENTFUL_SEARCH, {
+        withCredentials: true,
         params: {
           app_key: EVENTFUL_API_KEY,
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
