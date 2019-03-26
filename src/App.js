@@ -7,7 +7,7 @@ import Map from './Map'
 
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
-const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search/' : 'https://api.eventful.com/json/events/search/'
+const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search' : 'https://api.eventful.com/json/events/search'
 
 console.log(process.env.NODE_ENV)
 
@@ -60,17 +60,17 @@ class App extends Component {
 
   getEvents = async () => {
     try {
-      // const { data } = await axios.get(EVENTFUL_SEARCH, {
-      //   params: {
-      //     app_key: EVENTFUL_API_KEY,
-      //     location: `${this.state.location.lat}, ${this.state.location.lng}`,
-      //     date: 'Today',  
-      //     within: 1,
-      //     unit: 'mi',
-      //     include: 'popularity',
-      //     sort_order: 'popularity'
-      //   }
-      // })
+      const { data } = await axios.get(EVENTFUL_SEARCH, {
+        params: {
+          app_key: EVENTFUL_API_KEY,
+          location: `${this.state.location.lat}, ${this.state.location.lng}`,
+          date: 'Today',  
+          within: 1,
+          unit: 'mi',
+          include: 'popularity',
+          sort_order: 'popularity'
+        }
+      })
 
       // fetch(EVENTFUL_SEARCH, {
       //   app_key: EVENTFUL_API_KEY,
@@ -84,22 +84,22 @@ class App extends Component {
       //   .then(res => console.log(res.json()))
       //   .catch(error => console.error(error))
 
-      fetch(this.buildUrl(EVENTFUL_SEARCH, {
-        app_key: EVENTFUL_API_KEY,
-        location: `${this.state.location.lat}, ${this.state.location.lng}`,
-        date: 'Today',
-        within: 1,
-        unit: 'mi',
-        include: 'popularity',
-        sort_order: 'popularity'
-      }))
-        .then(res => {
-          return res.json()
-        })
-        .then((data) => {
-          this.setState({ events: data.events.event })
-        })
-        .catch(error => console.error('fetch error: ', error))
+      // fetch(this.buildUrl(EVENTFUL_SEARCH, {
+      //   app_key: EVENTFUL_API_KEY,
+      //   location: `${this.state.location.lat}, ${this.state.location.lng}`,
+      //   date: 'Today',
+      //   within: 1,
+      //   unit: 'mi',
+      //   include: 'popularity',
+      //   sort_order: 'popularity'
+      // }))
+      //   .then(res => {
+      //     return res.json()
+      //   })
+      //   .then((data) => {
+      //     this.setState({ events: data.events.event })
+      //   })
+      //   .catch(error => console.error('fetch error: ', error))
       
       /**
        * TODO: Flag recurring events. For example, an art show that is showing for 3 weeks
@@ -118,7 +118,7 @@ class App extends Component {
       //   return startTime === dateToday
       // })
 
-      // this.setState({ events: data.events.event })
+      this.setState({ events: data.events.event })
     } catch (err) {
       console.log('err', err)
       if (err.response) {
