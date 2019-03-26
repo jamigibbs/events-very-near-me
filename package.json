@@ -2,7 +2,7 @@
   "name": "eventnearme",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://api.eventful.com",
+  "proxy": "https://api.eventful.com",
   "dependencies": {
     "@emotion/core": "^10.0.9",
     "axios": "^0.18.0",
