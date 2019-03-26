@@ -7,7 +7,7 @@ import Map from './Map'
 
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
-const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search/' : 'http://api.eventful.com/json/events/search/'
+const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search/' : 'https://api.eventful.com/json/events/search/'
 
 class App extends Component {
   constructor(props){
@@ -42,10 +42,9 @@ class App extends Component {
   getEvents = async () => {
     try {
       const { data } = await axios.get(EVENTFUL_SEARCH, {
-        crossDomain: true,
         params: {
           app_key: EVENTFUL_API_KEY,
-          scheme: 'https',
+          // scheme: 'https',
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
           date: 'Today',
           within: 1,
