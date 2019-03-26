@@ -45,6 +45,10 @@ class App extends Component {
         params: {
           app_key: EVENTFUL_API_KEY,
           // scheme: 'https',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+          },
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
           date: 'Today',
           within: 1,
