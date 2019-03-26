@@ -42,13 +42,13 @@ class App extends Component {
   getEvents = async () => {
     try {
       const { data } = await axios.get(EVENTFUL_SEARCH, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
         params: {
           app_key: EVENTFUL_API_KEY,
           // scheme: 'https',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-          },
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
           date: 'Today',
           within: 1,
