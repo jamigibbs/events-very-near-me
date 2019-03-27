@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import fetchJsonp from 'fetch-jsonp'
 import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
-import $ from 'jquery';
-import jsonp from 'jsonp'
-
-axios.defaults.withCredentials = true
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
 const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search' : 'https://api.eventful.com/json/events/search'
-
-const helloWorld = function(val) {
-  console.log(val)
-}
 
 class App extends Component {
   constructor(props){
@@ -28,9 +20,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    window.yourCallbackFunctionName = (data) => {
-      console.log(data)
-    }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         this.setState({
@@ -49,96 +38,17 @@ class App extends Component {
     }
   }
 
-  buildUrl = (url, parameters) => {
-    let qs = "";
-    for (const key in parameters) {
-        if (parameters.hasOwnProperty(key)) {
-            const value = parameters[key];
-            qs +=
-                encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
-        }
-    }
-    if (qs.length > 0) {
-        qs = qs.substring(0, qs.length - 1); //chop off last "&"
-        url = url + "?" + qs;
-    }
-
-    return url;
-}
-
   getEvents = async () => {
     try {
-      // const { data } = await axios.get(EVENTFUL_SEARCH, {
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'x-www-form-urlencoded',
-      //   },
-      //   params: {
-      //     app_key: EVENTFUL_API_KEY,
-      //     location: `${this.state.location.lat}, ${this.state.location.lng}`,
-      //     date: 'Today',  
-      //     within: 1,
-      //     unit: 'mi',
-      //     include: 'popularity',
-      //     sort_order: 'popularity'
-      //   }
-      // })
-
-      // $.ajax({
-      //   url: EVENTFUL_SEARCH,
-      //   method: 'GET',
-      //   dataType: 'jsonp',
-      //   data: {
-      //     app_key: EVENTFUL_API_KEY,
-      //     location: `${this.state.location.lat}, ${this.state.location.lng}`,
-      //     date: 'Today',
-      //     include: 'popularity',
-      //     sort_order: 'popularity',
-      //     within: 1,
-      //     units: 'mi'
-      //   }
-      // })
-      // .then((data) => {
-      //   console.log(data.events)
-      //   this.setState({ events: data.events.event })
-      // })
-
-      jsonp(EVENTFUL_SEARCH, {
-        param: `app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&data=Today&include=popularity&sort_order=popularity&within=1&units=mi?`,
-        prefix: 'callback',
-      }, {}, (err, data) => {
-        this.setState({ events: data.events.event })
-      });
-
-      // fetch(EVENTFUL_SEARCH, {
-      //   app_key: EVENTFUL_API_KEY,
-      //   location: `${this.state.location.lat}, ${this.state.location.lng}`,
-      //   date: 'Today',
-      //   within: 1,
-      //   unit: 'mi',
-      //   include: 'popularity',
-      //   sort_order: 'popularity'
-      // })
-      //   .then(res => console.log(res.json()))
-      //   .catch(error => console.error(error))
-
-      // fetch(this.buildUrl(EVENTFUL_SEARCH, {
-      //   app_key: EVENTFUL_API_KEY,
-      //   location: `${this.state.location.lat}, ${this.state.location.lng}`,
-      //   date: 'Today',
-      //   within: 1,
-      //   unit: 'mi',
-      //   include: 'popularity',
-      //   sort_order: 'popularity'
-      // }))
-      //   .then(res => {
-      //     return res.json()
-      //   })
-      //   .then((data) => {
-      //     this.setState({ events: data.events.event })
-      //   })
-      //   .catch(error => console.error('fetch error: ', error))
-      
+      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&data=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
+        .then((response) => {
+          return response.json()
+        }).then((data) => {
+          this.setState({ events: data.events.event })
+        }).catch((ex) => {
+          console.log('parsing failed', ex)
+        })
+    
       /**
        * TODO: Flag recurring events. For example, an art show that is showing for 3 weeks
        * and the recurrence falls within today's date.
@@ -159,11 +69,6 @@ class App extends Component {
       //this.setState({ events: data.events.event })
     } catch (err) {
       console.log('err', err)
-      if (err.response) {
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      }
     }
   }
 
