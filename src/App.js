@@ -4,6 +4,7 @@ import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
+import $ from 'jquery';
 
 axios.defaults.withCredentials = true
 
@@ -61,20 +62,39 @@ class App extends Component {
 
   getEvents = async () => {
     try {
-      const { data } = await axios.get(EVENTFUL_SEARCH, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'x-www-form-urlencoded',
-        },
-        params: {
+      // const { data } = await axios.get(EVENTFUL_SEARCH, {
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'x-www-form-urlencoded',
+      //   },
+      //   params: {
+      //     app_key: EVENTFUL_API_KEY,
+      //     location: `${this.state.location.lat}, ${this.state.location.lng}`,
+      //     date: 'Today',  
+      //     within: 1,
+      //     unit: 'mi',
+      //     include: 'popularity',
+      //     sort_order: 'popularity'
+      //   }
+      // })
+
+      $.ajax({
+        url: EVENTFUL_SEARCH,
+        method: 'GET',
+        dataType: 'jsonp',
+        data: {
           app_key: EVENTFUL_API_KEY,
           location: `${this.state.location.lat}, ${this.state.location.lng}`,
-          date: 'Today',  
-          within: 1,
-          unit: 'mi',
+          date: 'Today',
           include: 'popularity',
-          sort_order: 'popularity'
+          sort_order: 'popularity',
+          within: 1,
+          units: 'mi'
         }
+      })
+      .then((data) => {
+        console.log(data.events)
+        this.setState({ events: data.events.event })
       })
 
       // fetch(EVENTFUL_SEARCH, {
@@ -121,9 +141,9 @@ class App extends Component {
       //   const startTime = event.start_time.split(' ')[0]
       //   console.log(startTime, dateToday)
       //   return startTime === dateToday
-      // })
+      // })\
 
-      this.setState({ events: data.events.event })
+      //this.setState({ events: data.events.event })
     } catch (err) {
       console.log('err', err)
       if (err.response) {
