@@ -5,13 +5,16 @@ import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
 import $ from 'jquery';
+import jsonp from 'jsonp'
 
 axios.defaults.withCredentials = true
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
 const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search' : 'https://api.eventful.com/json/events/search'
 
-console.log(process.env.NODE_ENV)
+const helloWorld = function(val) {
+  console.log(val)
+}
 
 class App extends Component {
   constructor(props){
@@ -25,6 +28,9 @@ class App extends Component {
   }
 
   componentDidMount() {
+    window.yourCallbackFunctionName = (data) => {
+      console.log(data)
+    }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         this.setState({
@@ -78,24 +84,31 @@ class App extends Component {
       //   }
       // })
 
-      $.ajax({
-        url: EVENTFUL_SEARCH,
-        method: 'GET',
-        dataType: 'jsonp',
-        data: {
-          app_key: EVENTFUL_API_KEY,
-          location: `${this.state.location.lat}, ${this.state.location.lng}`,
-          date: 'Today',
-          include: 'popularity',
-          sort_order: 'popularity',
-          within: 1,
-          units: 'mi'
-        }
-      })
-      .then((data) => {
-        console.log(data.events)
+      // $.ajax({
+      //   url: EVENTFUL_SEARCH,
+      //   method: 'GET',
+      //   dataType: 'jsonp',
+      //   data: {
+      //     app_key: EVENTFUL_API_KEY,
+      //     location: `${this.state.location.lat}, ${this.state.location.lng}`,
+      //     date: 'Today',
+      //     include: 'popularity',
+      //     sort_order: 'popularity',
+      //     within: 1,
+      //     units: 'mi'
+      //   }
+      // })
+      // .then((data) => {
+      //   console.log(data.events)
+      //   this.setState({ events: data.events.event })
+      // })
+
+      jsonp(EVENTFUL_SEARCH, {
+        param: `app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&data=Today&include=popularity&sort_order=popularity&within=1&units=mi?`,
+        prefix: 'callback',
+      }, {}, (err, data) => {
         this.setState({ events: data.events.event })
-      })
+      });
 
       // fetch(EVENTFUL_SEARCH, {
       //   app_key: EVENTFUL_API_KEY,
