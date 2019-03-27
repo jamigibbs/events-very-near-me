@@ -40,7 +40,7 @@ class App extends Component {
 
   getEvents = async () => {
     try {
-      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&data=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
+      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&date=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
         .then((response) => {
           return response.json()
         }).then((data) => {
