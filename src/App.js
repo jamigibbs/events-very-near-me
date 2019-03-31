@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import fetchJsonp from 'fetch-jsonp'
+import Spinner from 'react-spinkit'
 import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
@@ -16,7 +17,8 @@ class App extends Component {
       events: [],
       location: {},
       locationReady: false,
-      eventsAvailable: false
+      eventsAvailable: false,
+      isFetching: false
     }
   }
 
@@ -33,12 +35,6 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.events !== this.state.events) {
-      this.setState({ eventsAvailable: true })
-    }
-  }
-
   getEvents = async () => {
     try {
       // fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&date=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
@@ -50,9 +46,15 @@ class App extends Component {
       //     console.log('parsing failed', ex)
       //   })
 
+      this.setState({isFetching: true})
+
       setTimeout(() => {
-        this.setState({events: testData.data.events.event})
-      }, 2000)
+        this.setState({
+          events: testData.data.events.event, 
+          eventsAvailable: true,
+          isFetching: false
+        })
+      }, 3000)
     
     } catch (err) {
       console.log('err', err)
@@ -98,7 +100,12 @@ class App extends Component {
         }
 
         <div>
-          { this.state.locationReady && !eventsAvailable &&
+          { this.state.isFetching &&
+            <div className="loading-indicator">
+              <Spinner name="ball-scale-multiple" color="fuchsia" fadeIn={0} />
+            </div>
+          }
+          { this.state.locationReady && !eventsAvailable && !this.state.isFetching &&
             <Button handleClick={this.getEvents} value="Get Events Very Near Me" />
           }
           { eventsAvailable && 
