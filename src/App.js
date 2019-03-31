@@ -16,6 +16,7 @@ class App extends Component {
     this.state = {
       events: [],
       location: {},
+      distance: 1,
       locationReady: false,
       eventsAvailable: false,
       isFetching: false
@@ -36,35 +37,45 @@ class App extends Component {
   }
 
   getEvents = async () => {
+    const { location, distance } = this.state
+    this.setState({isFetching: true})
+
     try {
-      // fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&date=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
-      //   .then((response) => {
-      //     return response.json()
-      //   }).then((data) => {
-      //     this.setState({ events: data.events.event })
-      //   }).catch((ex) => {
-      //     console.log('parsing failed', ex)
-      //   })
-
-      this.setState({isFetching: true})
-
-      setTimeout(() => {
-        this.setState({
-          events: testData.data.events.event, 
-          eventsAvailable: true,
-          isFetching: false
+      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity&sort_order=popularity&within=${distance}&units=mi&page_size=100`)
+        .then((response) => {
+          return response.json()
+        }).then((data) => {
+          this.setState({ 
+            events: data.events.event,
+            eventsAvailable: true,
+            isFetching: false 
+          })
+        }).catch((ex) => {
+          console.log('parsing failed', ex)
         })
-      }, 3000)
+
+      // setTimeout(() => {
+      //   this.setState({
+      //     events: testData.data.events.event, 
+      //     //events: [],
+      //     eventsAvailable: true,
+      //     isFetching: false
+      //   })
+      // }, 3000)
     
     } catch (err) {
       console.log('err', err)
     }
   }
 
+  handleRadiusUpdate = (distance) => {
+    this.setState({distance, eventsAvailable: false}, () => {
+      this.getEvents()
+    })
+  }
+
   render() {
-    const lat = this.state.location.lat
-    const lng = this.state.location.lng
-    const eventsAvailable = this.state.events.length > 0
+    const { lat, lng } = this.state.location
     return (
       <div className="app">
         { this.state.locationReady &&
@@ -102,14 +113,17 @@ class App extends Component {
         <div>
           { this.state.isFetching &&
             <div className="loading-indicator">
-              <Spinner name="ball-scale-multiple" color="fuchsia" fadeIn={0} />
+              <Spinner name="ball-scale-multiple" color="fuchsia" fadeIn="none" />
             </div>
           }
-          { this.state.locationReady && !eventsAvailable && !this.state.isFetching &&
+          { this.state.locationReady && !this.state.eventsAvailable && !this.state.isFetching &&
             <Button handleClick={this.getEvents} value="Get Events Very Near Me" />
           }
-          { eventsAvailable && 
-            <EventsList events={this.state.events} />
+          { this.state.eventsAvailable && 
+            <EventsList 
+              events={this.state.events} 
+              handleRadiusUpdate={this.handleRadiusUpdate} 
+              distance={this.state.distance} />
           }
         </div>
 

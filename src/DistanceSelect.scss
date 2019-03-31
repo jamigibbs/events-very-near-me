@@ -1,0 +1,24 @@
+.distance-select {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  &__button {
+    color: white;
+    background-color: #F06292;
+    border: 1px solid #F06292;
+    border-radius: 2px;
+    padding: 5px;
+    margin: 0 2.5px;
+    transition: background-color 150ms ease-in-out; 
+    &:hover {
+      cursor: pointer;
+      background-color: #E91D63;
+    }
+    &--active {
+      background-color: #E91D63;
+    }
+  }
+} 

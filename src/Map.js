@@ -24,44 +24,57 @@ class Map extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (prevProps.eventsAvailable !== this.props.eventsAvailable) {
-      const markers = this.props.events.map((event) => {
-        return {
-          venue: event.venue_name,
-          lat: Number(event.latitude),
-          lng: Number(event.longitude) 
-        }
-      }, [])
 
-      this.setState({ markers }, () => {
-        if (markers.length > 0) {
-          this.addEventMarkers()
-        }
-      })
+      await this.deleteMarkers()
+
+      for (var i = 0; i < this.props.events.length; i++) {
+        await this.addMarker(this.props.events[i])
+      }
     }
   }
 
-  addEventMarkers = () => {
-    this.state.markers.forEach((event, i) => {
-      const marker = new window.google.maps.Marker({
-        position: { lat: event.lat, lng: event.lng },
-        map: this.map,
-        title: event.venue_name
-      })
-      
-      const content = '<div class="map__content">'+
-      `<p>${event.venue}</p>`+
-      '</div>';
-
-      const locationInfo = new window.google.maps.InfoWindow({
-        content
-      })
-
-      marker.addListener('click', function() {
-        locationInfo.open(this.map, marker)
-      })
+  addMarker = (event) => {
+    const location = { lat: Number(event.latitude), lng: Number(event.longitude) }
+    var marker = new window.google.maps.Marker({
+      position: location,
+      map: this.map
     })
+
+    const content = '<div class="map__content">'+
+    `<p>${event.venue_name}</p>`+
+    '</div>';
+
+    const locationInfo = new window.google.maps.InfoWindow({
+      content
+    })
+
+    marker.addListener('click', function() {
+      locationInfo.open(this.map, marker)
+    })
+
+    this.setState({markers: [...this.state.markers, marker]})
+  }
+
+  setMapOnAll = async (map) => {
+    for (var i = 0; i < this.state.markers.length; i++) {
+      await this.state.markers[i].setMap(map)
+    }
+  }
+
+  clearMarkers = async () => {
+    await this.setMapOnAll(null)
+  }
+
+  /**
+   * Deletes all markers in the array by removing references to them.
+   * 
+   * @ref https://goo.gl/ruFtz3
+   */
+  deleteMarkers = async () => {
+    await this.clearMarkers()
+    this.setState({markers: []})
   }
 
   onScriptLoad = () => {
