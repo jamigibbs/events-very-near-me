@@ -19,21 +19,6 @@ const DistanceSelect = ({updateRadius, currentRadius}) => {
           )
         })
       }
-        {/* <li>
-          <button 
-            className="distance-select__button"
-            onClick={() => updateRadius(1)}>1 miles</button>
-        </li>
-        <li>
-          <button 
-            className="distance-select__button"
-            onClick={() => updateRadius(1.5)}>1.5 miles</button>
-        </li>
-        <li>
-          <button 
-            className="distance-select__button"
-            onClick={() => updateRadius(2)}>2 miles</button>
-        </li> */}
       </ul>
     </div>
   )
