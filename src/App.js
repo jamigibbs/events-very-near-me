@@ -4,6 +4,7 @@ import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
+import testData from './data'
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
 const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search' : 'https://api.eventful.com/json/events/search'
@@ -40,46 +41,23 @@ class App extends Component {
 
   getEvents = async () => {
     try {
-      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&date=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
-        .then((response) => {
-          return response.json()
-        }).then((data) => {
-          this.setState({ events: data.events.event })
-        }).catch((ex) => {
-          console.log('parsing failed', ex)
-        })
+      // fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${this.state.location.lat},${this.state.location.lng}&date=Today&include=popularity&sort_order=popularity&within=1&units=mi`)
+      //   .then((response) => {
+      //     return response.json()
+      //   }).then((data) => {
+      //     this.setState({ events: data.events.event })
+      //   }).catch((ex) => {
+      //     console.log('parsing failed', ex)
+      //   })
+
+      setTimeout(() => {
+        this.setState({events: testData.data.events.event})
+      }, 2000)
     
-      /**
-       * TODO: Flag recurring events. For example, an art show that is showing for 3 weeks
-       * and the recurrence falls within today's date.
-       * 
-       * Ref: http://api.eventful.com/docs/faq
-       */
-
-      // Make sure only events matching current date.
-      // const dateToday = this.dateToday()
-      // const events = data.events.event.filter((event) => {
-      //   console.log(event)
-      //   // API format: 2019-03-24 19:30:00
-      //   const startTime = event.start_time.split(' ')[0]
-      //   console.log(startTime, dateToday)
-      //   return startTime === dateToday
-      // })\
-
-      //this.setState({ events: data.events.event })
     } catch (err) {
       console.log('err', err)
     }
   }
-
-  // dateToday = () => {
-  //   const today = new Date();
-  //   const dd = String(today.getDate()).padStart(2, '0')
-  //   const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-  //   const yyyy = today.getFullYear()
-  //   // Format: 2019-03-24
-  //   return yyyy + '-' + mm + '-' + dd
-  // }
 
   render() {
     const lat = this.state.location.lat
