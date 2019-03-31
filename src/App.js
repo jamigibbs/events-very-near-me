@@ -41,7 +41,7 @@ class App extends Component {
     this.setState({isFetching: true})
 
     try {
-      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity&sort_order=popularity&within=${distance}&units=mi&page_size=100`)
+      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity,categories,price&sort_order=popularity&within=${distance}&units=mi&page_size=100`)
         .then((response) => {
           return response.json()
         }).then((data) => {

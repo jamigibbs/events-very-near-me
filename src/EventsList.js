@@ -1,6 +1,7 @@
 import React from 'react'
 import './EventsList.scss';
 import DistanceSelect from './DistanceSelect';
+import EventCategories from './EventCategories';
 
 const EventsList = ({events, handleRadiusUpdate, distance}) => {
   
@@ -34,8 +35,11 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
       <DistanceSelect updateRadius={handleRadiusUpdate} currentRadius={distance} />
 
       { events.map((event, i) => {
+        console.log(i, event)
           return ( 
               <li className="event-list__item" key={i}>
+                <h5 className="event-list__title">Category</h5>
+                <EventCategories event={event} />
                 <h5 className="event-list__title">Venue</h5>
                 {event.venue_name}
                 <h5 className="event-list__title">Event</h5>

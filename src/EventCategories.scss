@@ -1,0 +1,15 @@
+.event-categories {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 10px;
+  text-transform: uppercase;
+  &__item {
+    margin-right: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 2px 3px;
+  }
+}
