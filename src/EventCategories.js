@@ -2,10 +2,10 @@ import React from 'react'
 import './Button.scss';
 import './EventCategories.scss';
 
-const EventCategories = ({event}) => {
+const EventCategories = ({categories}) => {
   return (
     <ul className="event-categories">
-    {event.categories.category.map((category, i) => {
+    {categories.map((category, i) => {
       return (
         <li 
           className="event-categories__item"
@@ -17,4 +17,4 @@ const EventCategories = ({event}) => {
   )
 }
 
-export default EventCategories;
+export default EventCategories

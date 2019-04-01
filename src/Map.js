@@ -6,7 +6,10 @@ const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 class Map extends Component {
   constructor(props){
     super(props)
-    this.state = { markers: [] }
+    this.state = { 
+      markers: [],
+      locations: {} 
+    }
     this.map = null
   }
 
@@ -40,20 +43,50 @@ class Map extends Component {
       position: location,
       map: this.map
     })
-
-    const content = '<div class="map__content">'+
-    `<p>${event.venue_name}</p>`+
-    '</div>';
-
-    const locationInfo = new window.google.maps.InfoWindow({
-      content
+    
+    const key = `${location.lat},${location.lng}`
+    const duplicate = this.state.locations.hasOwnProperty(key)
+    
+    // {
+    //   '41.8908879,-87.6162178': ['event name 1', 'event name 2'],
+    //   '41.8908900,-87.6162778': ['event name 1', 'event name 2'],
+    //
+    //   '41.8908900,-87.6162778': {
+    //     'http://chicago.eventful.com/example-event-1-link': 'event name 1',
+    //     'http://chicago.eventful.com/example-event-2-link': 'event name 1'
+    //    }
+    // }
+    
+    this.setState(() => {
+      if (!duplicate) {
+        return {
+          markers: [...this.state.markers, marker],
+          locations: {...this.state.locations, [key]: [event.title]}
+        }
+      } else {
+        return {
+          markers: [...this.state.markers, marker],
+          locations: {...this.state.locations, [key]: [...this.state.locations[key], event.title]}
+        }
+      }
+    }, () => {
+      const eventsList = this.state.locations[key].map((name) => {
+        return `<li>${name}</li>`
+      }).join('')
+      
+      const content = '<div class="map__content">'+
+      `<p>${event.venue_name}</p>`+
+      `<ul>${eventsList}</ul>`+
+      '</div>';
+  
+      const locationInfo = new window.google.maps.InfoWindow({
+        content
+      })
+  
+      marker.addListener('click', function() {
+        locationInfo.open(this.map, marker)
+      })
     })
-
-    marker.addListener('click', function() {
-      locationInfo.open(this.map, marker)
-    })
-
-    this.setState({markers: [...this.state.markers, marker]})
   }
 
   setMapOnAll = async (map) => {
@@ -73,7 +106,7 @@ class Map extends Component {
    */
   deleteMarkers = async () => {
     await this.clearMarkers()
-    this.setState({markers: []})
+    this.setState({markers: [], locations: {}})
   }
 
   onScriptLoad = () => {

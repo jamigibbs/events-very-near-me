@@ -7,6 +7,7 @@
 }
 
 .button {
+  cursor: pointer;
   background: #FF5F6D;
   background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);
   background: linear-gradient(to right, #FFC371, #FF5F6D);
@@ -19,8 +20,8 @@
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  cursor: pointer;
-  &:active {
-    transform: translateY(2px);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),-webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  &:hover {
+    transform: translateY(-6px);
   }
 }

@@ -38,7 +38,7 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
           return ( 
               <li className="event-list__item" key={i}>
                 <h5 className="event-list__title">Category</h5>
-                <EventCategories event={event} />
+                <EventCategories categories={event.categories.category} />
                 <h5 className="event-list__title">Venue</h5>
                 {event.venue_name}
                 <h5 className="event-list__title">Event</h5>
