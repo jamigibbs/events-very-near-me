@@ -25,8 +25,7 @@ class Map extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.eventsAvailable !== this.props.eventsAvailable) {
-
+    if (prevProps.eventsAvailable !== this.props.eventsAvailable && this.props.eventsAvailable) {
       await this.deleteMarkers()
 
       for (var i = 0; i < this.props.events.length; i++) {

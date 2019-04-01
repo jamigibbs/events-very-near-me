@@ -35,7 +35,6 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
       <DistanceSelect updateRadius={handleRadiusUpdate} currentRadius={distance} />
 
       { events.map((event, i) => {
-        console.log(i, event)
           return ( 
               <li className="event-list__item" key={i}>
                 <h5 className="event-list__title">Category</h5>
