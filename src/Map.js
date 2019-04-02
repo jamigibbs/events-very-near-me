@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import './Map.scss';
+import './Map.scss'
+import { cleanEventfulURL } from './utils'
 
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
@@ -48,30 +49,30 @@ class Map extends Component {
     const duplicate = this.state.locations.hasOwnProperty(key)
     
     // {
-    //   '41.8908879,-87.6162178': ['event name 1', 'event name 2'],
-    //   '41.8908900,-87.6162778': ['event name 1', 'event name 2'],
-    //
-    //   '41.8908900,-87.6162778': {
-    //     'http://chicago.eventful.com/example-event-1-link': 'event name 1',
-    //     'http://chicago.eventful.com/example-event-2-link': 'event name 1'
-    //    }
+    //   '41.8908900,-87.6162778': [
+    //     {'http://chicago.eventful.com/example-event-1-link': 'event name 1'},
+    //     {'http://chicago.eventful.com/example-event-2-link': 'event name 1'}
+    //    ]
     // }
-    
+
     this.setState(() => {
       if (!duplicate) {
         return {
           markers: [...this.state.markers, marker],
-          locations: {...this.state.locations, [key]: [event.title]}
+          locations: {...this.state.locations, [key]: [{ [event.url]: event.title }]}
         }
       } else {
         return {
           markers: [...this.state.markers, marker],
-          locations: {...this.state.locations, [key]: [...this.state.locations[key], event.title]}
+          locations: {...this.state.locations, [key]: [...this.state.locations[key], { [event.url]: event.title }]}
         }
       }
     }, () => {
-      const eventsList = this.state.locations[key].map((name) => {
-        return `<li>${name}</li>`
+
+      const eventsList = this.state.locations[key].map((eventInfo) => {
+        const url = cleanEventfulURL(Object.keys(eventInfo)[0])
+        const title = eventInfo[Object.keys(eventInfo)[0]]
+        return `<li><a target="_blank" rel="noopener noreferrer" href=${url}>${title}</a></li>`
       }).join('')
       
       const content = '<div class="map__content">'+

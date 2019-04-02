@@ -2,19 +2,9 @@ import React from 'react'
 import './EventsList.scss';
 import DistanceSelect from './DistanceSelect';
 import EventCategories from './EventCategories';
+import { cleanEventfulURL } from './utils'
 
 const EventsList = ({events, handleRadiusUpdate, distance}) => {
-  
-  /**
-   * Replacing localhost:3000 with the eventful domain name when we're 
-   * working in development environment.
-   * 
-   * @param {string} url 
-   */
-  function cleanEventfulURL(url) {
-    const path = url.split('3000')[1]
-    return path ? `https://eventful.com${path}` : url
-  }
 
   if (events.length === 0) {
     return (
