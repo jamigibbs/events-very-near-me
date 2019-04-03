@@ -1,10 +1,10 @@
 @import './mixins';
 
 .app {
-  width: 340px;
+  width: 360px;
   min-height: 550px;
   box-shadow: rgba(0, 0, 0, 0.1) -2px 7px 7px;
-  margin: 20px auto auto;
+  margin: 5px auto auto;
   background: #FBFBFD;
   @include for-desktop-up {
     width: 450px;
