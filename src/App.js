@@ -19,21 +19,31 @@ class App extends Component {
       distance: 1,
       locationReady: false,
       eventsAvailable: false,
-      isFetching: false
+      isFetching: false,
+      locationDenied: false
     }
   }
 
   componentDidMount() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        this.setState({
-          location: { lat: pos.coords.latitude, lng: pos.coords.longitude },
-          locationReady: true
-        })
-      })
+      navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError)
     } else {
-      console.log('Geolocation is not supported for this Browser/OS.');
+      console.log('Geolocation is not supported for this Browser/OS.')
+      this.setState({locationDenied: true})
     }
+  }
+  
+  geoSuccess = (pos) => {
+    this.setState({
+      location: { lat: pos.coords.latitude, lng: pos.coords.longitude },
+      locationReady: true,
+      locationDenied: false
+    })
+  }
+  
+  geoError = (error) => {
+    console.error('geolocation error. Code:', error.code, '-', error.message)
+    this.setState({locationDenied: true})
   }
 
   getEvents = async () => {
@@ -76,6 +86,13 @@ class App extends Component {
 
   render() {
     const { lat, lng } = this.state.location
+    if (this.state.locationDenied) {
+      return (
+        <div className="app">
+          <div className="app__error-text"><p>Oops! This app requires access to your <br />current location. <span role="img" aria-label="thinking face">🤔</span></p></div>
+        </div>
+      )
+    }
     return (
       <div className="app">
         { this.state.locationReady &&
