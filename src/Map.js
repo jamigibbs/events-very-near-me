@@ -72,7 +72,8 @@ class Map extends Component {
     const marker = new window.google.maps.Marker({
       position: location,
       map: this.map,
-      infoWindow: locationInfo
+      infoWindow: locationInfo,
+      icon: 'event-pin.svg'
     })
 
     marker.addListener('click', () => {
