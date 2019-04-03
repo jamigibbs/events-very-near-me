@@ -37,56 +37,54 @@ class Map extends Component {
       }
     }
   }
-
+  
   addMarker = (event) => {
     const location = { lat: Number(event.latitude), lng: Number(event.longitude) }
-    var marker = new window.google.maps.Marker({
-      position: location,
-      map: this.map
-    })
-    
     const key = `${location.lat},${location.lng}`
     const duplicate = this.state.locations.hasOwnProperty(key)
+
+    if (!duplicate) {
+      this.setState({
+        locations: {...this.state.locations, [key]: [{ [event.url]: event.title }]}
+      })
+    } else {
+      this.setState({
+        locations: {...this.state.locations, [key]: [...this.state.locations[key], { [event.url]: event.title }]}
+      })
+    }
+
+    const eventsList = this.state.locations[key].map((eventInfo) => {
+      const url = cleanEventfulURL(Object.keys(eventInfo)[0])
+      const title = eventInfo[Object.keys(eventInfo)[0]]
+      return `<li><a target="_blank" rel="noopener noreferrer" href=${url}>${title}</a></li>`
+    }).join('')
     
-    // {
-    //   '41.8908900,-87.6162778': [
-    //     {'http://chicago.eventful.com/example-event-1-link': 'event name 1'},
-    //     {'http://chicago.eventful.com/example-event-2-link': 'event name 1'}
-    //    ]
-    // }
+    const content = '<div class="map__content">'+
+    `<p>${event.venue_name}</p>`+
+    `<ul>${eventsList}</ul>`+
+    '</div>';
 
-    this.setState(() => {
-      if (!duplicate) {
-        return {
-          markers: [...this.state.markers, marker],
-          locations: {...this.state.locations, [key]: [{ [event.url]: event.title }]}
-        }
-      } else {
-        return {
-          markers: [...this.state.markers, marker],
-          locations: {...this.state.locations, [key]: [...this.state.locations[key], { [event.url]: event.title }]}
-        }
-      }
-    }, () => {
+    const locationInfo = new window.google.maps.InfoWindow({
+      content
+    })
 
-      const eventsList = this.state.locations[key].map((eventInfo) => {
-        const url = cleanEventfulURL(Object.keys(eventInfo)[0])
-        const title = eventInfo[Object.keys(eventInfo)[0]]
-        return `<li><a target="_blank" rel="noopener noreferrer" href=${url}>${title}</a></li>`
-      }).join('')
-      
-      const content = '<div class="map__content">'+
-      `<p>${event.venue_name}</p>`+
-      `<ul>${eventsList}</ul>`+
-      '</div>';
-  
-      const locationInfo = new window.google.maps.InfoWindow({
-        content
-      })
-  
-      marker.addListener('click', function() {
-        locationInfo.open(this.map, marker)
-      })
+    const marker = new window.google.maps.Marker({
+      position: location,
+      map: this.map,
+      infoWindow: locationInfo
+    })
+
+    marker.addListener('click', () => {
+      this.hideAllInfoWindows()
+      marker.infoWindow.open(this.map, marker)
+    })
+
+    this.setState({markers: [...this.state.markers, marker]})
+  }
+
+  hideAllInfoWindows = () => {
+    this.state.markers.forEach((marker) => {
+      marker.infoWindow.close(this.map, marker)
     })
   }
 
