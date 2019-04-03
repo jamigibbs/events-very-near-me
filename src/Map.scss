@@ -1,9 +1,12 @@
+.gm-style .gm-style-iw-c {
+  border-radius: 0;
+}
+
 .map {
   width: 350px;
   height: 350px;
   position: relative;
   width: 100%;
-  //flex: 0 1 50%;
   &__primary {
     position: absolute;
     left: 0;
@@ -11,7 +14,37 @@
     top: 0;
     bottom: 0;
   }
-  &__content {
+}
+
+.map-content {
+  color: #333;
+  padding: 10px;
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  &__list-item {
+    font-weight: bold;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  &__list-item-link {
     color: #333;
+    text-decoration: none;
+    transition: color 150ms ease-in-out; 
+    &:hover {
+      color: #E91D63;
+    }
+  }
+  &__header {
+    font-size: 16px;
+    margin: 0;
+  }
+  &__title {
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    color: #cccccc;
   }
 }

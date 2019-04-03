@@ -56,12 +56,13 @@ class Map extends Component {
     const eventsList = this.state.locations[key].map((eventInfo) => {
       const url = cleanEventfulURL(Object.keys(eventInfo)[0])
       const title = eventInfo[Object.keys(eventInfo)[0]]
-      return `<li><a target="_blank" rel="noopener noreferrer" href=${url}>${title}</a></li>`
+      return `<li class="map-content__list-item"><a class="map-content__list-item-link" target="_blank" rel="noopener noreferrer" href=${url}>${title}</a></li>`
     }).join('')
     
-    const content = '<div class="map__content">'+
-    `<p>${event.venue_name}</p>`+
-    `<ul>${eventsList}</ul>`+
+    const content = '<div class="map-content">'+
+    `<h3 class="map-content__header">${event.venue_name}</h3>`+
+    `<h4 class="map-content__title">Events</h4>`+
+    `<ul class="map-content__list">${eventsList}</ul>`+
     '</div>';
 
     const locationInfo = new window.google.maps.InfoWindow({
