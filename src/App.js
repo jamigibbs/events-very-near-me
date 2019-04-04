@@ -34,10 +34,12 @@ class App extends Component {
       script.src = `https://maps.google.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
       const scriptElement = document.getElementsByTagName('script')[0]
       scriptElement.parentNode.insertBefore(script, scriptElement)
-    }
-    
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError)
+      
+      script.addEventListener('load', () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError)
+        }
+      })
     }
   }
   
