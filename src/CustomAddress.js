@@ -31,7 +31,7 @@ class CustomAddress extends React.Component {
       <div className="app geo-custom" style={{backgroundImage: 'url("bg-blur.jpg")'}}>
         <div className="geo-custom__error-text">
         
-          <p>You don't want to give out your geolocation willy nilly. No biggie. <span style={{fontSize: '140%'}} role="img" aria-label="shrug">🤷</span>But we need to start somewhere:</p>
+          <p>You don't want to give out your geolocation willy nilly. No biggie. But we need to start somewhere:</p>
           
           <PlacesAutocomplete
             value={this.state.address}
