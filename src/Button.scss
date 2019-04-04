@@ -8,9 +8,10 @@
 
 .button {
   cursor: pointer;
-  background: #FF5F6D;
-  background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);
-  background: linear-gradient(to right, #FFC371, #FF5F6D);
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #434343, #4E5D86);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #434343, #4E5D86); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
   box-shadow: rgba(0, 0, 0, 0.1) -2px 5px 5px;
   border: none;
   color: white;
@@ -22,6 +23,6 @@
   margin: 4px 2px;
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),-webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   &:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
   }
 }

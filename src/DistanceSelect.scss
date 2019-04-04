@@ -7,18 +7,19 @@
   list-style: none;
   &__button {
     color: white;
-    background-color: #F06292;
-    border: 1px solid #F06292;
+    background-color: #2a91f8;
+    border: 1px solid #2a91f8;
     border-radius: 2px;
     padding: 5px;
     margin: 0 2.5px;
     transition: background-color 150ms ease-in-out; 
     &:hover {
       cursor: pointer;
-      background-color: #E91D63;
+      background-color: #006DDA;
     }
     &--active {
-      background-color: #E91D63;
+      background-color: #006DDA;
+      border: 1px solid #006DDA;
     }
   }
 } 

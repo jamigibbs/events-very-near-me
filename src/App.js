@@ -52,27 +52,27 @@ class App extends Component {
     this.setState({isFetching: true})
 
     try {
-      // fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity,categories,price&sort_order=popularity&within=${distance}&units=mi&page_size=50`)
-      //   .then((response) => {
-      //     return response.json()
-      //   }).then((data) => {
-      //     this.setState({ 
-      //       events: data.events.event,
-      //       eventsAvailable: true,
-      //       isFetching: false 
-      //     })
-      //   }).catch((ex) => {
-      //     console.log('parsing failed', ex)
-      //   })
-
-      setTimeout(() => {
-        this.setState({
-          events: testData.data.events.event, 
-          //events: [],
-          eventsAvailable: true,
-          isFetching: false
+      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity,categories,price&sort_order=popularity&within=${distance}&units=mi&page_size=30`)
+        .then((response) => {
+          return response.json()
+        }).then((data) => {
+          this.setState({ 
+            events: data.events.event,
+            eventsAvailable: true,
+            isFetching: false 
+          })
+        }).catch((ex) => {
+          console.log('parsing failed', ex)
         })
-      }, 2000)
+
+      // setTimeout(() => {
+      //   this.setState({
+      //     events: testData.data.events.event, 
+      //     //events: [],
+      //     eventsAvailable: true,
+      //     isFetching: false
+      //   })
+      // }, 2000)
     
     } catch (err) {
       console.log('err', err)
@@ -132,7 +132,7 @@ class App extends Component {
         <div>
           { this.state.isFetching &&
             <div className="loading-indicator">
-              <Spinner name="ball-scale-multiple" color="fuchsia" fadeIn="none" />
+              <Spinner name="ball-scale-multiple" color="#006DDA" fadeIn="none" />
             </div>
           }
           { this.state.locationReady && !this.state.eventsAvailable && !this.state.isFetching &&
