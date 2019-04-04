@@ -1,0 +1,22 @@
+.geo-custom {
+  background-size: contain;
+  &__error-text {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 60px 40px 0 40px;
+  }
+  input[type=text] {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    font-size: 14px;
+    display: inline-block;
+    border: 1px solid #cccccc;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+}

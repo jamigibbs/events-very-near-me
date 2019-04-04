@@ -3,11 +3,13 @@ import fetchJsonp from 'fetch-jsonp'
 import Spinner from 'react-spinkit'
 import './App.scss';
 import Button from './Button'
+import CustomAddress from './CustomAddress'
 import EventsList from './EventsList'
 import Map from './Map'
 import mapStyles from './mapStyles'
 import testData from './data'
 
+const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
 const EVENTFUL_SEARCH =  process.env.NODE_ENV === 'development' ? '/json/events/search' : 'https://api.eventful.com/json/events/search'
 
@@ -25,12 +27,17 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount() { 
+    if (!window.google) {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `https://maps.google.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
+      const scriptElement = document.getElementsByTagName('script')[0]
+      scriptElement.parentNode.insertBefore(script, scriptElement)
+    }
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError)
-    } else {
-      console.log('Geolocation is not supported for this Browser/OS.')
-      this.setState({locationDenied: true})
     }
   }
   
@@ -42,8 +49,7 @@ class App extends Component {
     })
   }
   
-  geoError = (error) => {
-    console.error('geolocation error. Code:', error.code, '-', error.message)
+  geoError = (error) => {    
     this.setState({locationDenied: true})
   }
 
@@ -56,11 +62,12 @@ class App extends Component {
         .then((response) => {
           return response.json()
         }).then((data) => {
-          this.setState({ 
-            events: data.events.event,
-            eventsAvailable: true,
-            isFetching: false 
-          })
+          if (data.events === null || !data.events) {
+            this.setState({ events: [] })
+          } else {
+            this.setState({ events: data.events.event})
+          }
+          this.setState({eventsAvailable: true, isFetching: false})
         }).catch((ex) => {
           console.log('parsing failed', ex)
         })
@@ -84,16 +91,14 @@ class App extends Component {
       this.getEvents()
     })
   }
+  
+  handleCustomLocation = (location) => {
+    this.setState({location, locationReady: true, locationDenied: false})
+  }
 
   render() {
     const { lat, lng } = this.state.location
-    if (this.state.locationDenied) {
-      return (
-        <div className="app">
-          <div className="app__error-text"><p>Oops! This app requires access to your <br />current location. <span role="img" aria-label="thinking face">🤔</span></p></div>
-        </div>
-      )
-    }
+    if (this.state.locationDenied) return <CustomAddress customLocation={this.handleCustomLocation} />
     return (
       <div className="app">
         { this.state.locationReady &&

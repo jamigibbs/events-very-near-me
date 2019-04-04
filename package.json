@@ -10,6 +10,7 @@
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-ga": "^2.5.7",
+    "react-places-autocomplete": "^7.2.1",
     "react-scripts": "2.1.8",
     "react-spinkit": "^3.0.0",
     "save": "^2.3.3"
