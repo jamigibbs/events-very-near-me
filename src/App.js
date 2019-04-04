@@ -5,6 +5,7 @@ import './App.scss';
 import Button from './Button'
 import EventsList from './EventsList'
 import Map from './Map'
+import mapStyles from './mapStyles'
 import testData from './data'
 
 const EVENTFUL_API_KEY = process.env.REACT_APP_EVENTFUL_API_KEY
@@ -51,27 +52,27 @@ class App extends Component {
     this.setState({isFetching: true})
 
     try {
-      // fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity,categories,price&sort_order=popularity&within=${distance}&units=mi&page_size=50`)
-      //   .then((response) => {
-      //     return response.json()
-      //   }).then((data) => {
-      //     this.setState({ 
-      //       events: data.events.event,
-      //       eventsAvailable: true,
-      //       isFetching: false 
-      //     })
-      //   }).catch((ex) => {
-      //     console.log('parsing failed', ex)
-      //   })
-
-      setTimeout(() => {
-        this.setState({
-          events: testData.data.events.event, 
-          //events: [],
-          eventsAvailable: true,
-          isFetching: false
+      fetchJsonp(`${EVENTFUL_SEARCH}?app_key=${EVENTFUL_API_KEY}&location=${location.lat},${location.lng}&date=Today&include=popularity,categories,price&sort_order=popularity&within=${distance}&units=mi&page_size=50`)
+        .then((response) => {
+          return response.json()
+        }).then((data) => {
+          this.setState({ 
+            events: data.events.event,
+            eventsAvailable: true,
+            isFetching: false 
+          })
+        }).catch((ex) => {
+          console.log('parsing failed', ex)
         })
-      }, 2000)
+
+      // setTimeout(() => {
+      //   this.setState({
+      //     events: testData.data.events.event, 
+      //     //events: [],
+      //     eventsAvailable: true,
+      //     isFetching: false
+      //   })
+      // }, 2000)
     
     } catch (err) {
       console.log('err', err)
@@ -101,7 +102,7 @@ class App extends Component {
               id="map__primary"
               eventsAvailable={this.state.eventsAvailable}
               events={this.state.events}
-              options={{ center: { lat, lng }, zoom: 14 }}
+              options={{ center: { lat, lng }, zoom: 13, styles: mapStyles, mapTypeControl: false, streetViewControl: false}}
               onMapLoad={map => {
 
                 const currentLocationMarker = new window.google.maps.Marker({
