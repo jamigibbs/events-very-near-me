@@ -31,7 +31,7 @@ class CustomAddress extends React.Component {
       <div className="app geo-custom" style={{backgroundImage: 'url("bg-blur.jpg")'}}>
         <div className="geo-custom__error-text">
         
-          <p>No biggie. You don't want to give out your current location willy nilly. But we need to start somewhere <span role="img" aria-label="shrug">🤷‍</span></p>
+          <p>You don't want to give out your geolocation willy nilly. No biggie. <span style={{fontSize: '140%'}} role="img" aria-label="shrug">🤷</span>But we need to start somewhere:</p>
           
           <PlacesAutocomplete
             value={this.state.address}
@@ -54,8 +54,8 @@ class CustomAddress extends React.Component {
                       : 'suggestion-item';
                     // inline style for demonstration purpose
                     const style = suggestion.active
-                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                      ? { backgroundColor: 'rgba(0, 0, 0, 0.9)', cursor: 'pointer' }
+                      : { backgroundColor: 'rgba(0, 0, 0, 0.5)', cursor: 'pointer' };
                     return (
                       <div
                         {...getSuggestionItemProps(suggestion, {

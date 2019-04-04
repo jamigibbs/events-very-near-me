@@ -1,6 +1,9 @@
 .geo-custom {
   background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #A6A6A6;
   &__error-text {
+    color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
