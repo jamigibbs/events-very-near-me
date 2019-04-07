@@ -54,8 +54,8 @@ class CustomAddress extends React.Component {
                       : 'suggestion-item';
                     // inline style for demonstration purpose
                     const style = suggestion.active
-                      ? { backgroundColor: 'rgba(0, 0, 0, 0.9)', cursor: 'pointer' }
-                      : { backgroundColor: 'rgba(0, 0, 0, 0.5)', cursor: 'pointer' };
+                      ? { backgroundColor: 'rgba(255, 255, 255, 0.9)', cursor: 'pointer' }
+                      : { backgroundColor: 'rgba(255, 255, 255, 0.5)', cursor: 'pointer' };
                     return (
                       <div
                         {...getSuggestionItemProps(suggestion, {

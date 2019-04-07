@@ -22,7 +22,7 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
       <h4 className="event-list__header">We found {events.length} event{events.length === 1 ? '' : 's'} within {distance} mile{distance > 1 ? 's' : ''}<br /> happening today! <span role="img" aria-label="celebrate">🎉</span>
       </h4>
 
-      <DistanceSelect updateRadius={handleRadiusUpdate} currentRadius={distance} />
+      {/* <DistanceSelect updateRadius={handleRadiusUpdate} currentRadius={distance} /> */}
 
       { events.map((event, i) => {
           return ( 
