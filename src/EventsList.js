@@ -3,6 +3,7 @@ import './EventsList.scss';
 import DistanceSelect from './DistanceSelect';
 import EventCategories from './EventCategories';
 import { cleanEventfulURL } from './utils'
+import convertTime from 'convert-time'
 
 const EventsList = ({events, handleRadiusUpdate, distance}) => {
 
@@ -15,6 +16,11 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
         <DistanceSelect updateRadius={handleRadiusUpdate} currentRadius={distance} />
       </div>
     )
+  }
+
+  const startTimeClean = function(str) {
+    const time = str.split(' ')[1]
+    return convertTime(time.slice(0, time.length - 3))
   }
   
   return (
@@ -29,24 +35,23 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
               <li className="event-list__item" key={i}>
                 <h5 className="event-list__title">Category</h5>
                 <EventCategories categories={event.categories.category} />
-                <h5 className="event-list__title">Venue</h5>
-                {event.venue_name}
                 <h5 className="event-list__title">Event</h5>
                 <a className="event-list__link" target="_blank" rel="noopener noreferrer" href={cleanEventfulURL(event.url)}>
                   {event.title}
                 </a>
-                <h5 className="event-list__title">Location</h5>
-                <a className="event-list__link" target="_blank" rel="noopener noreferrer" href="https://maps.google.com">
+                <h5 className="event-list__title">Venue</h5>
+                <a className="event-list__link" target="_blank" rel="noopener noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${event.venue_address}`}>
+                  {event.venue_name} <br />
                   {event.venue_address}
                 </a>
                 { event.recur_string !== null &&
                   <span>
-                  <h5 className="event-list__title"><span className="event-list__recurring">Recurring Event</span></h5>
+                  <h5 className="event-list__title">Recurring Event</h5>
                   {event.recur_string}
                   </span>
                 }
                 <h5 className="event-list__title">Time</h5>
-                {event.start_time}
+                {startTimeClean(event.start_time)}
               </li> 
           )
         })
