@@ -2,7 +2,7 @@ import React from 'react'
 import './DistanceSelect.scss'
 
 const DistanceSelect = ({updateRadius, currentRadius}) => {
-  const distanceSelections = [1, 1.5, 2]
+  const distanceSelections = [2, 5, 10]
   return (
     <div>
       <ul className="distance-select">
