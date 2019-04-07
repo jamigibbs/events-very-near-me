@@ -1,7 +1,8 @@
 import React from 'react'
-import './EventsList.scss';
-import DistanceSelect from './DistanceSelect';
-import EventCategories from './EventCategories';
+import './EventsList.scss'
+import DistanceSelect from './DistanceSelect'
+import EventCategories from './EventCategories'
+import EventfulBranding from './EventfulBranding'
 import { cleanEventfulURL } from './utils'
 import convertTime from 'convert-time'
 
@@ -24,6 +25,7 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
   }
   
   return (
+    <div style={{paddingBottom: '10px'}}>
     <ul className="event-list">
       <h4 className="event-list__header">We found {events.length} event{events.length === 1 ? '' : 's'} within {distance} mile{distance > 1 ? 's' : ''}<br /> happening today! <span role="img" aria-label="celebrate">🎉</span>
       </h4>
@@ -57,6 +59,8 @@ const EventsList = ({events, handleRadiusUpdate, distance}) => {
         })
       }
     </ul>
+    <EventfulBranding />
+    </div>
   )
 }
 
