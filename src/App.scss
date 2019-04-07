@@ -1,17 +1,15 @@
 @import './mixins';
 
 .app {
-  width: 99vw;
+  width: 340px;
   min-height: 550px;
   box-shadow: rgba(0, 0, 0, 0.1) -2px 7px 7px;
-  margin: 2px auto auto;
+  margin: 20px auto auto;
   background: #FBFBFD;
   @include for-desktop-up {
     width: 450px;
-    margin-top: 20px;
   }
 }
-
 .loading-indicator {
   display: flex;
   justify-content: center;
